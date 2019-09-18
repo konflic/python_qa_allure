@@ -13,8 +13,11 @@ def attach_file_in_module_scope_fixture_with_finalizer(request):
     request.addfinalizer(finalizer_module_scope_fixture)
 
 
-def test_with_attacments_in_fixture_and_finalizer(attach_file_in_module_scope_finalizer):
-    pass
+def test_with_attacments_in_fixture_and_finalizer(attach_file_in_module_scope_fixture_with_finalizer):
+    with allure.step("Step one"):
+        with allure.step("Inner step two"):
+            with allure.step("Super inner"):
+                pass
 
 
 def test_multiple_attachments():

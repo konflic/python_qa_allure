@@ -7,6 +7,7 @@ def test_without_any_annotations_that_wont_be_executed():
     pass
 
 
+@allure.feature('feature_2')
 @allure.story('epic_1')
 def test_with_epic_1():
     pass

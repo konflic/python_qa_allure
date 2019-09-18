@@ -1,8 +1,16 @@
 import pytest
-
+import allure
 
 def step_inside_test_body():
     assert 1 == 1
+
+@allure.step("Class scope")
+def class_scope_step():
+    pass
+
+@allure.step
+def session_scope_step():
+    pass
 
 
 @pytest.fixture(params=[True, False], ids=['param_true', 'param_false'])
@@ -13,7 +21,7 @@ def function_scope_fixture_with_finalizer(request):
         print('False')
 
     def function_scope_finalizer():
-        function_scope_step()
+        print('FINALIZE!')
 
     request.addfinalizer(function_scope_finalizer)
 
@@ -29,7 +37,7 @@ def class_scope_fixture_with_finalizer(request):
 @pytest.fixture(scope='module')
 def module_scope_fixture_with_finalizer(request):
     def module_finalizer_fixture():
-        module_scope_step()
+        print("MODULE!")
 
     request.addfinalizer(module_finalizer_fixture)
 

@@ -6,3 +6,4 @@ def browser(request):
     bro = webdriver.Chrome()
     request.addfinalizer(bro.quit)
     return bro
+
