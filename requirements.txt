@@ -1,3 +1,4 @@
 allure-pytest==2.7.0
-pytest==5.0.0
+pytest==5.4.1
 selenium==3.141.0
+requests==2.23.0
