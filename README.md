@@ -1,5 +1,9 @@
-## Allure
+## Allure reporting tool
 
-This repo is to assist allure demonstration.
+* Documentation
 
 https://docs.qameta.io/allure/
+
+* Allure commandline
+
+https://github.com/allure-framework/allure2/releases

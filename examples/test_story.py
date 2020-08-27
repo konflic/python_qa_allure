@@ -7,10 +7,13 @@ def test_without_any_annotations_that_wont_be_executed():
     pass
 
 
-@allure.feature('feature_2')
-@allure.story('epic_1')
+@allure.story('story')
+@allure.feature('epic')
+@allure.title('This is tile of the story')
 def test_with_epic_1():
-    pass
+    with allure.step("Давайте потестируем"):
+        with allure.step("И ещё потестируем"):
+            pass
 
 
 @allure.story('story_1')
@@ -23,7 +26,7 @@ def test_with_story_2():
     pass
 
 
-@allure.feature('feature_2')
 @allure.story('story_2')
+@allure.feature('feature_2')
 def test_with_story_2_and_feature_2():
     pass

@@ -1,10 +1,12 @@
 import pytest
 import time
 
+
 def test_success():
     """this test succeeds"""
     time.sleep(4)
     assert True
+
 
 def test_failure():
     """this test fails"""

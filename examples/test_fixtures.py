@@ -1,12 +1,15 @@
 import pytest
 import allure
 
+
 def step_inside_test_body():
     assert 1 == 1
+
 
 @allure.step("Class scope")
 def class_scope_step():
     pass
+
 
 @allure.step
 def session_scope_step():
