@@ -3,12 +3,12 @@ import allure
 TEST_CASE_LINK = 'https://github.com/qameta/allure-integrations/issues/8#issuecomment-268313637'
 
 
-@allure.link('https://www.youtube.com/watch?v=4YYzUTYZRMU')
+@allure.link('https://docs.qameta.io/allure/#_pytest')
 def test_with_link():
     pass
 
 
-@allure.link('https://www.youtube.com/watch?v=Su5p2TqZxKU', name='Click me')
+@allure.link('https://docs.qameta.io/allure/#_pytest', name='Click me')
 def test_with_named_link():
     pass
 

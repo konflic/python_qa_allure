@@ -2,8 +2,8 @@ import time
 from page_objects import Habr
 
 
-def test_post_open(browser):
-    page = Habr(browser) \
+def test_post_open(local_browser):
+    page = Habr(local_browser) \
         .open() \
         .click_search() \
         .search('Swift')
@@ -13,8 +13,8 @@ def test_post_open(browser):
     time.sleep(2)
 
 
-def test_hubs_open(browser):
-    page = Habr(browser) \
+def test_hubs_open(local_browser):
+    page = Habr(local_browser) \
         .open() \
         .click_search() \
         .search('Dart')
@@ -23,8 +23,8 @@ def test_hubs_open(browser):
     time.sleep(2)
 
 
-def test_post_open_2(browser):
-    page = Habr(browser) \
+def test_post_open_2(local_browser):
+    page = Habr(local_browser) \
         .open() \
         .click_search() \
         .search('Python')
@@ -34,8 +34,8 @@ def test_post_open_2(browser):
     time.sleep(2)
 
 
-def test_hubs_open_2(browser):
-    page = Habr(browser) \
+def test_hubs_open_2(local_browser):
+    page = Habr(local_browser) \
         .open() \
         .click_search() \
         .search('Java')
