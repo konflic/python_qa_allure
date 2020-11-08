@@ -1,14 +1,14 @@
 def test_one(function_fixture, session_fixture):
-    pass
+    print("from test_one")
 
 
-def test_two(function_fixture):
-    pass
+def test_two():
+    print("from test_two")
 
 
-def test_three(function_fixture, session_fixture):
-    pass
+def test_three(session_fixture):
+    print("from test_three")
 
 
 def test_four(function_fixture):
-    pass
+    print("from test_four")

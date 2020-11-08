@@ -8,14 +8,14 @@ def test_with_link():
     pass
 
 
-@allure.link('https://docs.qameta.io/allure/#_pytest', name='Click me')
+@allure.link('https://docs.qameta.io/allure/#_pytest', name='I am custom link name')
 def test_with_named_link():
     pass
 
 
-@allure.issue('140', 'Pytest-flaky test retries shows like test steps')
+@allure.issue('https://pytest.org', 'Pytest-flaky test retries shows like test steps')
 def test_with_issue_link():
-    pass
+    assert False
 
 
 @allure.testcase(TEST_CASE_LINK, 'Test case title')

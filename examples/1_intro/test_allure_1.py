@@ -4,7 +4,7 @@ import time
 
 def test_success():
     """this test succeeds"""
-    time.sleep(4)
+    time.sleep(1)
     assert True
 
 
