@@ -91,6 +91,23 @@ def remote_browser(request):
             if video and url_data_exists(video_url): requests.delete(url=video_url)
             if logs and url_data_exists(log_url): requests.delete(url=log_url)
 
+        with open("allure-report/environment.xml", "w+") as file:
+            file.write(f"""<environment>
+                <parameter>
+                    <key>Browser</key>
+                    <value>{browser}</value>
+                </parameter>
+                <parameter>
+                    <key>Browser.Version</key>
+                    <value>{version}</value>
+                </parameter>
+                <parameter>
+                    <key>Executor</key>
+                    <value>{executor_url}</value>
+                </parameter>
+            </environment>
+            """)
+
     request.addfinalizer(finalizer)
     return driver
 
@@ -99,9 +116,12 @@ def remote_browser(request):
 def local_browser(request):
     browser = request.config.getoption("--browser")
 
-    if browser == "chrome": driver = webdriver.Chrome()
-    elif browser == "firefox": driver = webdriver.Firefox()
-    else: raise ValueError("{} browser not supported".format(browser))
+    if browser == "chrome":
+        driver = webdriver.Chrome()
+    elif browser == "firefox":
+        driver = webdriver.Firefox()
+    else:
+        raise ValueError("{} browser not supported".format(browser))
 
     allure.attach(
         name=driver.session_id,
