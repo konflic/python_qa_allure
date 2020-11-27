@@ -32,7 +32,7 @@ def pytest_runtest_makereport(item, call):
 def pytest_addoption(parser):
     parser.addoption("--browser", default="chrome")
     parser.addoption("--executor", default="localhost")
-    parser.addoption("--bversion", action="store", default="80.0")
+    parser.addoption("--bversion", action="store", default="86.0")
     parser.addoption("--vnc", action="store_true", default=False)
     parser.addoption("--logs", action="store_true", default=False)
     parser.addoption("--video", action="store_true", default=False)
@@ -55,8 +55,7 @@ def remote_browser(request):
             "enableVideo": video,
             "enableLog": logs
         },
-        "name": "QAPython",
-        "screenResolution": "1280x720x24"
+        "name": "QAPython"
     }
 
     driver = webdriver.Remote(
@@ -64,49 +63,49 @@ def remote_browser(request):
         command_executor=executor_url
     )
 
-    allure.attach(
-        name=driver.session_id,
-        body=json.dumps(driver.desired_capabilities),
-        attachment_type=allure.attachment_type.JSON)
+    # allure.attach(
+    #     name=driver.session_id,
+    #     body=json.dumps(driver.desired_capabilities),
+    #     attachment_type=allure.attachment_type.JSON)
 
     def finalizer():
         log_url = f"{executor_url}/logs/{driver.session_id}.log"
         video_url = f"{executor_url}/video/{driver.session_id}.mp4"
         driver.quit()
 
-        if request.node.status == 'failed':
-            if logs:
-                if url_data_exists(log_url):
-                    allure.attach(
-                        name="selenoid_log_" + driver.session_id,
-                        body=requests.get(log_url).text,
-                        attachment_type=allure.attachment_type.TEXT)
-            if video:
-                if url_data_exists(video_url):
-                    allure.attach(
-                        body=requests.get(video_url).content,
-                        name="video_for_" + driver.session_id,
-                        attachment_type=allure.attachment_type.MP4)
-        else:
-            if video and url_data_exists(video_url): requests.delete(url=video_url)
-            if logs and url_data_exists(log_url): requests.delete(url=log_url)
-
-        with open("allure-report/environment.xml", "w+") as file:
-            file.write(f"""<environment>
-                <parameter>
-                    <key>Browser</key>
-                    <value>{browser}</value>
-                </parameter>
-                <parameter>
-                    <key>Browser.Version</key>
-                    <value>{version}</value>
-                </parameter>
-                <parameter>
-                    <key>Executor</key>
-                    <value>{executor_url}</value>
-                </parameter>
-            </environment>
-            """)
+        # if request.node.status == 'failed':
+        #     if logs:
+        #         if url_data_exists(log_url):
+        #             allure.attach(
+        #                 name="selenoid_log_" + driver.session_id,
+        #                 body=requests.get(log_url).text,
+        #                 attachment_type=allure.attachment_type.TEXT)
+        #     if video:
+        #         if url_data_exists(video_url):
+        #             allure.attach(
+        #                 body=requests.get(video_url).content,
+        #                 name="video_for_" + driver.session_id,
+        #                 attachment_type=allure.attachment_type.MP4)
+        # else:
+        #     if video and url_data_exists(video_url): requests.delete(url=video_url)
+        #     if logs and url_data_exists(log_url): requests.delete(url=log_url)
+        #
+        # with open("allure-report/environment.xml", "w+") as file:
+        #     file.write(f"""<environment>
+        #         <parameter>
+        #             <key>Browser</key>
+        #             <value>{browser}</value>
+        #         </parameter>
+        #         <parameter>
+        #             <key>Browser.Version</key>
+        #             <value>{version}</value>
+        #         </parameter>
+        #         <parameter>
+        #             <key>Executor</key>
+        #             <value>{executor_url}</value>
+        #         </parameter>
+        #     </environment>
+        #     """)
 
     request.addfinalizer(finalizer)
     return driver
