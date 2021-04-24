@@ -1,4 +1,4 @@
-## Allure reporting tool
+# Allure reporting tool
 
 * Documentation
 

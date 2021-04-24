@@ -35,11 +35,11 @@ def pytest_runtest_makereport(item, call):
 
 def pytest_addoption(parser):
     parser.addoption("--browser", default="chrome")
-    parser.addoption("--executor", default="127.0.0.1")
-    parser.addoption("--bversion", action="store", default="86.0")
+    parser.addoption("--executor", default="192.168.8.138")
+    parser.addoption("--bversion", action="store", default="90.0")
     parser.addoption("--vnc", action="store_true", default=False)
     parser.addoption("--logs", action="store_true", default=False)
-    parser.addoption("--video", action="store_true", default=True)
+    parser.addoption("--video", action="store_true", default=False)
 
 
 @pytest.fixture
@@ -52,7 +52,7 @@ def remote_browser(request):
     executor = request.config.getoption('--executor')
     executor_url = f"http://{executor}:4444/wd/hub"
 
-    caps = {
+    capabilities = {
         "browserName": browser,
         "browserVersion": version,
         "selenoid:options": {
@@ -64,7 +64,7 @@ def remote_browser(request):
     }
 
     driver = webdriver.Remote(
-        desired_capabilities=caps,
+        desired_capabilities=capabilities,
         command_executor=executor_url
     )
 
