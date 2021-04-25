@@ -17,17 +17,18 @@ def input_text(driver, selector, text):
 def open_page(driver, url):
     driver.get(url)
 
-
-@allure.step("Выполняю тест")
-def make_test(driver):
-    open_page(driver, "https://ya.ru")
-    input_text(driver, "#text", "Привет")
-    click_element(driver, "[role='button']")
+#
+# @allure.step("Выполняю тест")
+# def make_test(driver):
+#     open_page(driver, "https://ya.ru")
+#     input_text(driver, "#text", "Привет")
+#     click_element(driver, "[role='button']")
 
 
 def test_one(local_browser):
-    make_test(local_browser)
-    time.sleep(2)
+    open_page(local_browser, "https://ya.ru")
+    input_text(local_browser, "#text", "Привет")
+    click_element(local_browser, "[role='button']")
 
 
 @pytest.mark.parametrize("text", ["Привет", "", 1234])
@@ -39,6 +40,4 @@ def test_two(local_browser, text):
         local_browser.get(url)
 
         with allure.step(f"Ввожу значение {text} в {input_field}"):
-            local_browser.find_element_by_css_selector(input_field).send_keys(text)
-
-    time.sleep(2)
+            assert 0
