@@ -1,34 +1,43 @@
-from selenium.common.exceptions import TimeoutException
+import logging
+import os
+
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 import selenium.webdriver.support.expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 class BasePage:
 
-    def __init__(self, driver, wait=2):
+    def __init__(self, driver, wait=3):
         self.driver = driver
         self.wait = WebDriverWait(driver, wait)
+        self.actions = ActionChains(driver)
+        self.__config_logger()
+
+    def __config_logger(self, to_file=False):
+        self.logger = logging.getLogger(type(self).__name__)
+        os.makedirs("logs", exist_ok=True)
+        if to_file:
+            self.logger.addHandler(logging.FileHandler(f"logs/{self.driver.test_name}.log"))
+        self.logger.setLevel(level=self.driver.log_level)
 
     def _open(self, url):
+        self.logger.info("Opening url: {}".format(url))
         self.driver.get(url)
-        return self
 
     def click(self, locator):
-        try:
-            self.wait.until(EC.visibility_of_element_located(locator)).click()
-            return self
-        except TimeoutException:
-            raise TimeoutException
+        self.logger.info("Clicking element: {}".format(locator))
+        self.wait.until(EC.element_to_be_clickable(locator)).click()
 
     def input_and_submit(self, locator, value):
-        find_field = self.driver.find_element(*locator)
+        self.logger.info("Input {} in input {}".format(value, locator))
+        find_field = self.wait.until(EC.presence_of_element_located(locator))
+        find_field.click()
+        find_field.clear()
         find_field.send_keys(value)
         find_field.send_keys(Keys.ENTER)
-        return self
 
     def is_present(self, locator):
-        try:
-            return self.wait.until(EC.visibility_of_element_located(locator))
-        except TimeoutException:
-            raise TimeoutException
+        self.logger.info("Check if element {} is present".format(locator))
+        return self.wait.until(EC.visibility_of_element_located(locator))

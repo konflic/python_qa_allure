@@ -1,3 +1,5 @@
+import logging
+
 import pytest
 import requests
 import allure
@@ -35,15 +37,15 @@ def pytest_runtest_makereport(item, call):
 
 def pytest_addoption(parser):
     parser.addoption("--browser", default="chrome")
-    parser.addoption("--executor", default="192.168.8.138")
-    parser.addoption("--bversion", action="store", default="90.0")
+    parser.addoption("--executor", default="192.168.1.95")
+    parser.addoption("--bversion", action="store", default="95.0")
     parser.addoption("--vnc", action="store_true", default=False)
     parser.addoption("--logs", action="store_true", default=False)
     parser.addoption("--video", action="store_true", default=False)
 
 
 @pytest.fixture
-def remote_browser(request):
+def driver(request):
     browser = request.config.getoption("--browser")
     vnc = request.config.getoption("--vnc")
     logs = request.config.getoption("--logs")
@@ -96,7 +98,7 @@ def remote_browser(request):
         if logs and url_data(log_url): requests.delete(url=log_url)
 
         # Add environment info to allure-report
-        with open("allure-report/environment.xml", "w+") as file:
+        with open("allure-results/environment.xml", "w+") as file:
             file.write(f"""<environment>
                 <parameter>
                     <key>Browser</key>
@@ -113,25 +115,8 @@ def remote_browser(request):
             </environment>
             """)
 
+    driver.test_name = request.node.name
+    driver.log_level = logging.DEBUG
+
     request.addfinalizer(finalizer)
-    return driver
-
-
-@pytest.fixture
-def local_browser(request):
-    browser = request.config.getoption("--browser")
-
-    if browser == "chrome":
-        driver = webdriver.Chrome()
-    elif browser == "firefox":
-        driver = webdriver.Firefox()
-    else:
-        raise ValueError("{} browser not supported".format(browser))
-
-    allure.attach(
-        name=driver.session_id,
-        body=json.dumps(driver.desired_capabilities),
-        attachment_type=allure.attachment_type.JSON)
-
-    request.addfinalizer(driver.quit)
     return driver

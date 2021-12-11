@@ -1,5 +1,5 @@
-allure-pytest==2.8.40
+allure-python-commons==2.9.45
 pytest==6.2.3
-selenium==3.141.0
+selenium==4.1.0
 requests==2.25.1
 pytest-xdist==2.2.1

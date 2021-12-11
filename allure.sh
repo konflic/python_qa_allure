@@ -1,1 +1,1 @@
-~/Downloads/allure/bin/allure serve allure-report
+~/Downloads/allure/bin/allure generate allure-results/ --clean
