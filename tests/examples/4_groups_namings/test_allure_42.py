@@ -1,5 +1,4 @@
 import allure
-import pytest
 
 @allure.feature('Shopping Cart')
 @allure.story('Add product to cart')

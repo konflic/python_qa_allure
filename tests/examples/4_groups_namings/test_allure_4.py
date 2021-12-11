@@ -1,6 +1,5 @@
 # $ pytest tests.py --allure-features feature2 --allure-stories story2
 import allure
-import pytest
 
 
 @allure.feature('Authorization')

@@ -23,15 +23,15 @@ class BasePage:
         self.logger.setLevel(level=self.driver.log_level)
 
     def _open(self, url):
-        self.logger.info("Opening url: {}".format(url))
+        self.logger.info(f"Opening url: {url}")
         self.driver.get(url)
 
     def click(self, locator):
-        self.logger.info("Clicking element: {}".format(locator))
+        self.logger.info(f"Clicking element: {locator}")
         self.wait.until(EC.element_to_be_clickable(locator)).click()
 
     def input_and_submit(self, locator, value):
-        self.logger.info("Input {} in input {}".format(value, locator))
+        self.logger.info(f"Input {value} in input {locator}")
         find_field = self.wait.until(EC.presence_of_element_located(locator))
         find_field.click()
         find_field.clear()
@@ -39,5 +39,5 @@ class BasePage:
         find_field.send_keys(Keys.ENTER)
 
     def is_present(self, locator):
-        self.logger.info("Check if element {} is present".format(locator))
+        self.logger.info(f"Check if element {locator} is present")
         return self.wait.until(EC.visibility_of_element_located(locator))

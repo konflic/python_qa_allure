@@ -10,7 +10,7 @@ from selenium import webdriver
 
 
 @allure.step("Waiting for resource availability {url}")
-def url_data(url, timeout=10):
+def wait_url_data(url, timeout=10):
     while timeout:
         response = requests.get(url)
         if not response.ok:
@@ -52,6 +52,7 @@ def driver(request):
     video = request.config.getoption("--video")
     version = request.config.getoption("--bversion")
     executor = request.config.getoption('--executor')
+
     executor_url = f"http://{executor}:4444/wd/hub"
 
     capabilities = {
@@ -73,7 +74,7 @@ def driver(request):
     # Attach browser data
     allure.attach(
         name=driver.session_id,
-        body=json.dumps(driver.desired_capabilities),
+        body=json.dumps(driver.capabilities),
         attachment_type=allure.attachment_type.JSON)
 
     def finalizer():
@@ -85,17 +86,20 @@ def driver(request):
             if logs:
                 allure.attach(
                     name="selenoid_log_" + driver.session_id,
-                    body=url_data(log_url),
+                    body=wait_url_data(log_url),
                     attachment_type=allure.attachment_type.TEXT)
             if video:
                 allure.attach(
-                    body=url_data(video_url),
+                    body=wait_url_data(video_url),
                     name="video_for_" + driver.session_id,
                     attachment_type=allure.attachment_type.MP4)
 
         # Clear videos and logs from selenoid
-        if video and url_data(video_url): requests.delete(url=video_url)
-        if logs and url_data(log_url): requests.delete(url=log_url)
+        if video and wait_url_data(video_url):
+            requests.delete(url=video_url)
+
+        if logs and wait_url_data(log_url):
+            requests.delete(url=log_url)
 
         # Add environment info to allure-report
         with open("allure-results/environment.xml", "w+") as file:
