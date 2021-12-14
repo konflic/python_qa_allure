@@ -41,7 +41,7 @@ def pytest_addoption(parser):
     parser.addoption("--bversion", action="store", default="95.0")
     parser.addoption("--vnc", action="store_true", default=False)
     parser.addoption("--logs", action="store_true", default=False)
-    parser.addoption("--video", action="store_true", default=False)
+    parser.addoption("--video", action="store_true", default=True)
 
 
 @pytest.fixture

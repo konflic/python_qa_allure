@@ -1,4 +1,4 @@
-allure-python-commons==2.9.45
+allure-pytest==2.9.45
 pytest==6.2.3
 selenium==4.1.0
 requests==2.25.1
