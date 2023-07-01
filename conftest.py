@@ -1,5 +1,4 @@
 import logging
-import os.path
 
 import pytest
 import requests
@@ -47,84 +46,15 @@ def pytest_addoption(parser):
 
 @pytest.fixture
 def driver(request):
-    browser = request.config.getoption("--browser")
-    vnc = request.config.getoption("--vnc")
-    logs = request.config.getoption("--logs")
-    video = request.config.getoption("--video")
-    version = request.config.getoption("--bversion")
-    executor = request.config.getoption('--executor')
+    driver = webdriver.Chrome()
 
-    executor_url = f"http://{executor}:4444/wd/hub"
-    if executor != "local":
-
-        capabilities = {
-            "browserName": browser,
-            "browserVersion": version,
-            "selenoid:options": {
-                "enableVNC": vnc,
-                "enableVideo": video,
-                "enableLog": logs
-            },
-            "name": "QAPython"
-        }
-
-        driver = webdriver.Remote(
-            desired_capabilities=capabilities,
-            command_executor=executor_url
-        )
-    else:
-        driver = webdriver.Chrome(executable_path=os.path.expanduser("~/Downloads/drivers/chromedriver"))
-
-    # Attach browser data
     allure.attach(
         name=driver.session_id,
         body=json.dumps(driver.capabilities),
         attachment_type=allure.attachment_type.JSON)
 
-    def finalizer():
-        # log_url = f"{executor}/logs/{driver.session_id}.log"
-        # video_url = f"http://{executor}:8080/video/{driver.session_id}.mp4"
-        # driver.quit()
-        #
-        # if request.node.status != 'passed':
-        #     if logs:
-        #         allure.attach(
-        #             name="selenoid_log_" + driver.session_id,
-        #             body=wait_url_data(log_url),
-        #             attachment_type=allure.attachment_type.TEXT)
-        #     if video:
-        #         allure.attach(
-        #             body=wait_url_data(video_url),
-        #             name="video_for_" + driver.session_id,
-        #             attachment_type=allure.attachment_type.MP4)
-        #
-        # # Clear videos and logs from selenoid
-        # if video and wait_url_data(video_url):
-        #     requests.delete(url=video_url)
-        #
-        # if logs and wait_url_data(log_url):
-        #     requests.delete(url=log_url)
-
-        # Add environment info to allure-report
-        with open("allure-results/environment.xml", "w+") as file:
-            file.write(f"""<environment>
-                <parameter>
-                    <key>Browser</key>
-                    <value>{browser}</value>
-                </parameter>
-                <parameter>
-                    <key>Browser.Version</key>
-                    <value>{version}</value>
-                </parameter>
-                <parameter>
-                    <key>Executor</key>
-                    <value>{executor_url}</value>
-                </parameter>
-            </environment>
-            """)
-
     driver.test_name = request.node.name
     driver.log_level = logging.DEBUG
 
-    request.addfinalizer(finalizer)
+    request.addfinalizer(driver.quit)
     return driver

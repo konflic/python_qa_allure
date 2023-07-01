@@ -1,1 +1,0 @@
-~/Downloads/allure/bin/allure generate allure-results/ --clean
