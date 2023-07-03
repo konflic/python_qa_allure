@@ -35,10 +35,11 @@ def test_one(driver):
 def test_two(driver, text):
     input_field = "#text"
 
-    open_page(driver, "https://ya.ru")
+    with allure.step("Открыаю url"):
+        open_page(driver, "https://ya.ru")
 
-    with allure.step(f"Ввожу значение {text} в {input_field}"):
-        assert 1
+        with allure.step(f"Ввожу значение {text} в {input_field}"):
+            assert 0
 
-    with allure.step("Внешний степ"):
-        pass
+            with allure.step("Нажимаю Сабмит"):
+                pass

@@ -6,9 +6,9 @@ def my_fixture():
     pass
 
 
-@pytest.mark.parametrize('param1', [True, False], ids=['Истина', 'Ложь'])
+@pytest.mark.parametrize('param1', [True, False], ids=['Istina', 'Log'])
 def test_parameterize_with_fixture(param1, my_fixture):
-    pass
+    assert param1
 
 
 @pytest.mark.parametrize('param1', [True, False])

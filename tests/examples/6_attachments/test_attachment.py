@@ -1,6 +1,7 @@
 import allure
 
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
 
 
 def test_attachments_failed(driver):
@@ -14,7 +15,7 @@ def test_attachments_failed(driver):
             attachment_type=allure.attachment_type.HTML)
         with allure.step("Поиск элемента"):
             try:
-                driver.find_element_by_css_selector("no-such-selector")
+                driver.find_element(By.CSS_SELECTOR, "no-such-selector")
             except NoSuchElementException as e:
                 allure.attach(
                     body=driver.get_screenshot_as_png(),
@@ -32,8 +33,10 @@ def test_attachments_success(driver):
             attachment_type=allure.attachment_type.HTML)
         with allure.step("Выполняю элемента"):
             try:
-                driver.find_element_by_css_selector("input")
+                driver.find_element(By.CSS_SELECTOR, "input")
             except NoSuchElementException as e:
                 allure.attach(body=driver.get_screenshot_as_png(),
-                              name="screenshot_image")
+                              name="screenshot_image",
+                              attachment_type=allure.attachment_type.PNG
+                )
                 raise AssertionError(e.msg)

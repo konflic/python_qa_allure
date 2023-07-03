@@ -1,5 +1,10 @@
+import logging
+
+logger = logging.getLogger(__name__)
+
 def test_one(function_fixture, session_fixture):
     print("from test_one")
+    logger.warning("THIS IS FROM LOG!")
     assert 1
 
 

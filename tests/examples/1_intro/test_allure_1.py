@@ -18,10 +18,10 @@ def test_failure2():
     assert 0  # -> AssertionError
 
 
-@pytest.mark.skip(reason="Broken")
 def test_skip():
     """this test is skipped"""
-    pytest.skip('for a reason!')
+    # pytest.skip('for a reason!')
+    pytest.fail('FAIL!')
 
 
 def test_broken():

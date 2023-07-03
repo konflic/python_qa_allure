@@ -13,3 +13,8 @@ def session_fixture(request):
     print("Session setup")
     def fin(): print("Session finalizer")
     request.addfinalizer(fin)
+
+
+@pytest.fixture(autouse=True)
+def function_fixture11(request):
+    print("Function setup")
