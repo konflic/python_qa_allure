@@ -1,27 +1,11 @@
 import logging
 
 import pytest
-import requests
 import allure
-import time
 import json
 
 from selenium import webdriver
-
-
-@allure.step("Waiting for resource availability {url}")
-def wait_url_data(url, timeout=10):
-    while timeout:
-        response = requests.get(url)
-        if not response.ok:
-            time.sleep(1)
-            timeout -= 1
-        else:
-            if 'video' in url:
-                return response.content
-            else:
-                return response.text
-    return None
+from selenium.webdriver.chrome.service import Service as ChromeService
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
@@ -35,18 +19,10 @@ def pytest_runtest_makereport(item, call):
         item.status = 'passed'
 
 
-def pytest_addoption(parser):
-    parser.addoption("--browser", default="chrome")
-    parser.addoption("--executor", default="local")
-    parser.addoption("--bversion", action="store", default="95.0")
-    parser.addoption("--vnc", action="store_true", default=False)
-    parser.addoption("--logs", action="store_true", default=False)
-    parser.addoption("--video", action="store_true", default=True)
-
-
 @pytest.fixture
 def driver(request):
-    driver = webdriver.Chrome()
+    service = ChromeService()
+    driver = webdriver.Chrome(service=service)
 
     allure.attach(
         name=driver.session_id,
