@@ -24,4 +24,4 @@ def test_with_issue_link():
 
 @allure.testcase(TEST_CASE_LINK, 'Test case title')
 def test_with_testcase_link():
-    pass
+    print("Привет из теста test_with_testcase_link")
