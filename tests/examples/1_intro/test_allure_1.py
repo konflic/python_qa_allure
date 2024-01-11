@@ -1,16 +1,16 @@
 import pytest
 import time
-
+import random
 
 def test_success():
     """this test succeeds"""
     time.sleep(1)
-    assert True
+    assert False
 
 
 def test_failure():
     """this test fails"""
-    assert 1  # -> AssertionError
+    assert random.choice([0, 1]) # -> AssertionError
 
 
 def test_failure2():

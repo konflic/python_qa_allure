@@ -5,14 +5,16 @@ from selenium.webdriver.common.by import By
 
 
 def test_attachments_failed(driver):
-    driver.get("https://yandex.ru")
+    driver.get("https://ya.ru")
 
     with allure.step("Прикрепил html"):
 
         allure.attach(
             body=driver.page_source,
             name='Attach_with_HTML_type',
-            attachment_type=allure.attachment_type.HTML)
+            attachment_type=allure.attachment_type.HTML
+        )
+
         with allure.step("Поиск элемента"):
             try:
                 driver.find_element(By.CSS_SELECTOR, "no-such-selector")

@@ -26,11 +26,24 @@ def driver(request):
 
     allure.attach(
         name=driver.session_id,
-        body=json.dumps(driver.capabilities),
+        body=json.dumps(driver.capabilities, indent=4, ensure_ascii=False),
         attachment_type=allure.attachment_type.JSON)
 
     driver.test_name = request.node.name
     driver.log_level = logging.DEBUG
 
-    request.addfinalizer(driver.quit)
-    return driver
+    yield driver
+
+    if request.node.status == "failed":
+        allure.attach(
+            name="failure_screenshot",
+            body=driver.get_screenshot_as_png(),
+            attachment_type=allure.attachment_type.PNG
+        )
+        allure.attach(
+            name="page_source",
+            body=driver.page_source,
+            attachment_type=allure.attachment_type.HTML
+        )
+
+    driver.quit()

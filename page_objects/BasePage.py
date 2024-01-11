@@ -1,6 +1,7 @@
 import logging
 import os
 
+import selenium
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 import selenium.webdriver.support.expected_conditions as EC
@@ -39,5 +40,8 @@ class BasePage:
         find_field.send_keys(Keys.ENTER)
 
     def is_present(self, locator):
-        self.logger.info(f"Check if {locator} is present")
-        return self.wait.until(EC.visibility_of_element_located(locator))
+        try:
+            self.logger.info(f"Check if {locator} is present")
+            return self.wait.until(EC.visibility_of_element_located(locator))
+        except selenium.common.exceptions.TimeoutException:
+            raise AssertionError

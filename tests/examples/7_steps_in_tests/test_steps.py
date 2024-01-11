@@ -1,21 +1,21 @@
 import allure
 import pytest
+from selenium.webdriver.common.by import By
 
 
 @allure.step("Выполняю клик по элементу {selector}")
 def click_element(driver, selector):
-    driver.find_element_by_css_selector(selector).click()
+    driver.find_element(By.CSS_SELECTOR, selector).click()
 
 
 @allure.step("Ввожу '{text}' в элемент {selector}")
 def input_text(driver, selector, text):
-    driver.find_element_by_css_selector(selector).send_keys(text)
+    driver.find_element(By.CSS_SELECTOR, selector).send_keys(text)
 
 
 @allure.step("Открываю url {url}")
 def open_page(driver, url):
     driver.get(url)
-
 
 #
 # @allure.step("Выполняю тест")
@@ -35,7 +35,7 @@ def test_one(driver):
 def test_two(driver, text):
     input_field = "#text"
 
-    with allure.step("Открыаю url"):
+    with allure.step(f"Открыаю url и ввожу значение {input_field}"):
         open_page(driver, "https://ya.ru")
 
         with allure.step(f"Ввожу значение {text} в {input_field}"):
