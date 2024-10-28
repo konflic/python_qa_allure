@@ -1,6 +1,11 @@
+import logging
+
 import pytest
 import time
 import random
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 def test_success():
     """this test succeeds"""
@@ -31,3 +36,7 @@ def test_broken():
 def test_broken2():
     a = []
     assert a[1]
+
+def test_print():
+    print("This is print")
+    logger.warning("This is logger!")
