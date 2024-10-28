@@ -5,6 +5,7 @@ import allure
 import json
 
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service as ChromeService
 
 
@@ -22,7 +23,9 @@ def pytest_runtest_makereport(item, call):
 @pytest.fixture
 def driver(request):
     service = ChromeService()
-    driver = webdriver.Chrome(service=service)
+    options = Options()
+    options.page_load_strategy = 'eager'
+    driver = webdriver.Chrome(service=service, options=options)
 
     allure.attach(
         name=driver.session_id,

@@ -8,8 +8,8 @@ class HabrObject(BasePage):
     URL = "https://habr.com/en"
     SEARCH_ICON = (By.CSS_SELECTOR, ".tm-header-user-menu__search .tm-header-user-menu__icon_search")
     SEARCH_FILED = (By.CSS_SELECTOR, "input[name='q']")
-    # READ_MORE = (By.CSS_SELECTOR, ".tm-article-snippet__readmore")
-    READ_MORE = (By.CSS_SELECTOR, ".tm-article-snippet__readmoreeeee")
+    READ_MORE = (By.CSS_SELECTOR, ".tm-article-snippet__readmore")
+    # READ_MORE = (By.CSS_SELECTOR, ".tm-article-snippet__readmoreeeee")
     FILTERS_DROPDOWN = (By.CSS_SELECTOR, ".tm-navigation-dropdown__button")
     FILTER_BY_RATING = (By.XPATH, "//li[contains(text(), 'rating')]")
     POST_BODY = (By.CSS_SELECTOR, ".tm-article-body")
